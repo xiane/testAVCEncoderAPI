@@ -537,7 +537,9 @@ static void *encode_thread(void *param) {
 
         if (result != ENC_FAILED) {
             num_actually_encoded++;
-            write(outfd, (unsigned char *)output_buffer, datalen);
+            ssize_t wr_size = write(outfd, (unsigned char *)output_buffer, datalen);
+	    if (wr_size != datalen)
+		    goto exit;
         }
         pconfig_param->num--;
     }
