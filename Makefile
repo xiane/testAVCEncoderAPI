@@ -1,7 +1,7 @@
-#export CROSS_CC_PREFIX=aarch64-linux-gnu-
-#export CC=$(CROSS_CC_PREFIX)gcc
-#export CXX=$(CROSS_CC_PREFIX)g++
-#export AR=$(CROSS_CC_PREFIX)ar
+CROSS_CC_PREFIX ?=
+CC := $(CROSS_CC_PREFIX)gcc
+CXX := $(CROSS_CC_PREFIX)g++
+AR := $(CROSS_CC_PREFIX)ar
 
 TARGET=testAVCApi
 SOURCES=test.cpp test_dma.c
@@ -18,6 +18,9 @@ $(TARGET):$(AMLENC_LIB)
 	$(CXX) -c $(CFLAGS) $< -o $@
 %.o:%.c
 	$(CC) -c $(CFLAGS) $< -o $@
+
+install: $(TARGET)
+	cp $^ /usr/local/bin/
 clean:
 	-rm -f *.o
 	-rm -f $(TARGET)
